@@ -1,136 +1,139 @@
-from colorama import init,Fore,Back,Style
-import requests, re
-import json
-import os
+"""
+_______________.___.
+\______   \__  |   |
+ |    |  _//   |   |
+ |    |   \\____   |
+ |______  // ______|
+        \/ \/       
+   _____         _______           ________        __________.__         ._____________   __________ 
+  /  _  \   ____ \   _  \   ____   \_____  \___  __\______   |  |   ____ |__\__    _______\______   \
+ /  /_\  \ /    \/  /_\  \ /    \    _(__  <\  \/  /|     ___|  |  /  _ \|  | |    |_/ __ \|       _/
+/    |    |   |  \  \_/   |   |  \  /       \>    < |    |   |  |_(  <_> |  | |    |\  ___/|    |   \
+\____|__  |___|  /\_____  |___|  / /______  /__/\_ \|____|   |____/\____/|__| |____| \___  |____|_  /
+        \/     \/       \/     \/         \/      \/                                     \/       \/ 
 
-__header__ = {
-    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Encoding': 'gzip,deflate,sdch',
-    'Accept-Language': 'en-US,en;q=0.8',
-    'Connection': 'keep-alive'
-}
+                                ~ Changing Coder Name Wont Make You One :)
+                                             ~ An0n 3xPloiTeR :)
+"""
 
-##########################   Some Colors We Need :P #########################
+from insides import *
+from sys     import argv
+import requests, json
+import optparse
+import os, re
 
-if os.name == "posix":
-    # colors foreground text:
-    fc = "\033[0;96m"
-    fg = "\033[0;92m"
-    fw = "\033[0;97m"
-    fr = "\033[0;91m"
-    fb = "\033[0;94m"
-    fy = "\033[0;33m"
-    fm = "\033[0;35m"
+################################  Banner   ################################
 
-    # colors background text:
-    bc = "\033[46m"
-    bg = "\033[42m"
-    bw = "\033[47m"
-    br = "\033[41m"
-    bb = "\033[44m"
-    by = "\033[43m"
-    bm = "\033[45m"
+print(Banner)
 
-    # colors style text:
-    sd = Style.DIM
-    sn = Style.NORMAL
-    sb = Style.BRIGHT
-else:
-    ## ----------------------------------------------------------------------------------------------------------------------  ##
-    init(autoreset=True)
-    # colors foreground text:
-    fc = Fore.CYAN
-    fg = Fore.GREEN
-    fw = Fore.WHITE
-    fr = Fore.RED
-    fb = Fore.BLUE
-    fy = Fore.YELLOW
-    fm = Fore.MAGENTA
-    
+################################ Functions ################################
 
-    # colors background text:
-    bc = Back.CYAN
-    bg = Back.GREEN
-    bw = Back.WHITE
-    br = Back.RED
-    bb = Back.BLUE
-    by = Fore.YELLOW
-    bm = Fore.MAGENTA
+def reverseViaHT(website):
+    website = addHTTP(website); webs = removeHTTP(website)
+    url = "http://api.hackertarget.com/reverseiplookup/?q="
+    combo = "{url}{website}".format(url=url, website=webs)
+    request = requests.get(combo, headers=functions._headers, timeout=5).text.encode('UTF-8')
+    if len(request) != 5:
+        list = request.strip("").split("\n")
+        for _links in list:
+            if len(_links) != 0:
+                write(var="#", color=g, data=_links)
+    else:
+        write(var="@", color=r, data="Sorry, The webserver of the website you entered have no domains other then the one you gave :')")
 
-    # colors style text:
-    sd = Style.DIM
-    sn = Style.NORMAL
-    sb = Style.BRIGHT
-    ## ----------------------------------------------------------------------------------------------------------------------  ##
-
-def main():
-
-    banner = '''
-%s%s__________     ____   ____    __________       ___________  ._____________ 
-%s%s\\______   \\ ___\\   \\ /   /____\\______   \\ _____\\_   _____/  |   \______   \\
-%s%s |       _// __ \   Y   // __ \|       _//  ___/|    __)_   |   ||     ___/
-%s%s |    |   \  ___/\     /\  ___/|    |   \\\\___ \ |        \  |   ||    |    
-%s%s |____|_  /\___  >\___/  \___  >____|_  /____  >_______  /  |___||____|  ~ %s%sBy %s%sAn0n 3xPloiTeR :)
-%s%s        \/     \/            \/       \/     \/        \/                  
-    ''' % (fc,sb, fc,sb, fc,sb, fb,sb, fb,sb, fr,sb ,fc,sb, fb,sb )
-
-    footer = "\n  %s%s[%s%s$%s%s] %s%sThanks For Using :D\n\t%s%s~%s%s %s%sAn0n 3xPloiTeR%s%s :)\n" % (
-            fw, sb,
-            fg, sb,
-            fw, sb,
-            fc, sb,
-            fb, sb,
-            fw, sb,
-            fr, sb,
-            fw, sb
-        )
-
-    web = "https://domains.yougetsignal.com/domains.php"
-
-    print banner
-
-    dom = raw_input(""+fw+sb+"["+fc+sb+"$"+fw+sb+"] "+fc+sb+"Please Enter Website: "+fc+sb)
-    print ""
-
+def reverseViaYGS(website):
+    website = addHTTP(website); webs = removeHTTP(website)
+    url = "https://domains.yougetsignal.com/domains.php"
     post = {
-        'remoteAddress' : dom,
+        'remoteAddress' : webs,
         'key' : ''
     }
+    request = requests.post(url, headers=functions._headers, timeout=5, data=post).text.encode('UTF-8')
 
-    try:
+    grab = json.loads(request)
 
-        req = requests.post(web, headers=__header__, data=post).content
+    Status = grab['status']
+    IP = grab['remoteIpAddress']
+    Domain = grab['remoteAddress']
+    Total_Domains = grab['domainCount']
+    Array = grab['domainArray']
 
-    except requests.exceptions.ConnectionError:
-        print "\nErr0r: Sorry! You Entered A Wrong Website 0r Website Is 0ff."
-
-    grab = json.loads(req)
-
-    if (grab['status'] == 'Fail'):
-        print fw+sb+"["+fc+sb+"@"+fw+sb+"] " + "Err0r ~ " + "Sorry! Reverse Ip Limit Reached."
-
-    # elif (re.match("Invalid remote address", grab['message'])):
-    #     print fw+sb+"["+fc+sb+"@"+fw+sb+"] " + "Err0r ~ " + "Wrong Website Given :')"
-
+    if (Status == 'Fail'):
+        write(var="#", color=r, data="Sorry! Reverse Ip Limit Reached.")
     else:
-
-        print fw+sb+"["+fc+sb+"$"+fw+sb+"] "+fg+sb+"IP: " + grab['remoteIpAddress']
-        print fw+sb+"["+fc+sb+"$"+fw+sb+"] "+fg+sb+"Domain: " + grab['remoteAddress']
-        print fw+sb+"["+fc+sb+"$"+fw+sb+"] "+fg+sb+"Total Domains: " + grab['domainCount'] + "\n"
+        write(var="$", color=c, data="IP: " + IP + "")
+        write(var="$", color=c, data="Domain: " + Domain + "")
+        write(var="$", color=c, data="Total Domains: " + Total_Domains + "\n")
 
         domains = []
 
-        for x, y in grab['domainArray']:
+        for x, y in Array:
             domains.append(x)
 
         for res in domains:
-            print fw+sb+"["+fb+sb+"~"+fw+sb+"] " + fr+sb+res
+            write(var="#", color=b, data=res)
 
-    print footer
+def heading(heading, website, color, afterWebHead):
+    space = " " * 15
+    var = str(space + heading + " '" + website + "'" + str(afterWebHead) + " ..." + space)
+    length = len(var) + 1; print "" # \n
+    print("{white}" + "-" * length + "-").format(white=w)
+    print("{color}" + var).format(color=color)
+    print("{white}" + "-" * length + "-").format(white=w); print "" # \n
 
-if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        print "\n"+fw+sb+"["+fc+sb+"$"+fw+sb+"] "+fr+sb+"Err0r: "+fc+sb+"User Interrupted :')"
+################################  Args  ################################ 
+
+_usage      = g + "python " + w + argv[0] + g + " --all hackthissite.org" + w
+_version    = w + "[" + c + "~" + w + "] " + g + "Version: " + c + "2.0"
+parser      = optparse.OptionParser(usage=_usage, version=_version, conflict_handler="resolve")
+general     = optparse.OptionGroup(parser, y + 'Basic Help')
+general.add_option( '-h', '--help', action='help', dest='help', help='Shows the help for program.')
+general.add_option( '-v', '--version', action='version',
+    help='Shows the version of program.')
+
+reverse_ip  = optparse.OptionGroup(parser, g + "Reverse IP")
+reverse_ip.add_option( "-s", "--revygs",  action='store_true', dest='yougetsignal', help="For Doing Reverse IP Via You Get Signal's API")
+reverse_ip.add_option( "-r", "--revht",  action='store_true', dest='hackertarget', help="For Doing Reverse IP Via Hacker Target's  API")
+
+grouped_scanning = optparse.OptionGroup(parser, c + "Grouped Results")
+grouped_scanning.add_option( "-a", "--all",  action='store_true', dest='all', help="All Things at Once!")
+
+
+
+parser.add_option_group(general)
+parser.add_option_group(reverse_ip)
+parser.add_option_group(grouped_scanning)
+
+(options, args) = parser.parse_args()
+try: website = addHTTP(args[0])
+except: pass
+
+try:
+    if  options.yougetsignal:
+        heading(heading="Doing Reverse IP", website=website, afterWebHead=" Via YGS <3", color=g)
+        reverseViaYGS(website)
+
+    elif options.hackertarget:
+        heading(heading="Doing Reverse IP", website=website, afterWebHead=" Via HT <3", color=c)
+        reverseViaHT(website)
+
+    elif options.all:
+        heading(heading="Doing Reverse IP", website=website, afterWebHead=" Via YGS <3", color=g)
+        reverseViaYGS(website)
+
+        heading(heading="Doing Reverse IP", website=website, afterWebHead=" Via HT <3", color=c)
+        reverseViaHT(website)
+
+    else:
+        write(var="~", color=c, data="Usage: " + g + "python " + w + argv[0] + g + " --all hackthissite.org")
+
+except KeyboardInterrupt:
+    write(var="~", color=y, data="Err0r: User Interrupted!")
+
+except Exception, e:
+    write(var="#", color=r, data="Err0r: Kindly Report the err0r below to An0n3xPloiTeR :) (If Your Internet's Working ;)\n\"\"\"\n" + str(e) + "\n\"\"\"")
+
+print(Footer)
+
+# ~ See Ya :)
+# ~ An0n 3xPloiTeR :)
