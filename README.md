@@ -3,7 +3,7 @@
 
 ### Requirements
 
-- Python (2)
+- Python (2.7.*)
 - Python `pip`
 - Python module `requests`
 - Python module `colorama`
@@ -59,7 +59,7 @@ Options:
     -a, --all      All Things at Once!
   
   Example:
-	python rev.py
+	python rev.py --all hackthissite.org
 </code></pre>
 
 ### Screenshots
