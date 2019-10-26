@@ -16,7 +16,7 @@ _______________.___.
                                              ~ An0n 3xPloiTeR :)
 """
 
-from colors 	import *
-from functions 	import *
-from banner 	import banner as Banner
-from footer 	import footer as Footer
+from insides.colors import *
+from insides.functions import *
+from insides.banner import banner as Banner
+from insides.footer import footer as Footer
