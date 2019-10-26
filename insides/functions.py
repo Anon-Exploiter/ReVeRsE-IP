@@ -84,9 +84,7 @@ def write(var, color, data):
     if var == None:
         print(color + str(data))
     elif var != None:
-        print("{white}[{cyan}" + var + "{white}] " + color + str(data)).format(
-        	white=w, cyan=c
-    	)
+        print(str("{white}[{cyan}" + var + "{white}] " + color + str(data)).format(white=w, cyan=c))
 
 def Request(website, _timeout=None, _encode=None):
     """
