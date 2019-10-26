@@ -17,7 +17,7 @@ _______________.___.
 """
 
 from insides import *
-from sys     import argv
+from sys import argv
 import requests, json
 import optparse
 import os, re
@@ -76,10 +76,10 @@ def reverseViaYGS(website):
 def heading(heading, website, color, afterWebHead):
     space = " " * 15
     var = str(space + heading + " '" + website + "'" + str(afterWebHead) + " ..." + space)
-    length = len(var) + 1; print "" # \n
-    print("{white}" + "-" * length + "-").format(white=w)
-    print("{color}" + var).format(color=color)
-    print("{white}" + "-" * length + "-").format(white=w); print "" # \n
+    length = len(var) + 1; print () # \n
+    print(str("{white}" + "-" * length + "-").format(white=w))
+    print(str("{color}" + var).format(color=color))
+    print(str("{white}" + "-" * length + "-").format(white=w)); print () # \n
 
 ################################  Args  ################################ 
 
@@ -130,7 +130,7 @@ try:
 except KeyboardInterrupt:
     write(var="~", color=y, data="Err0r: User Interrupted!")
 
-except Exception, e:
+except Exception as e:
     write(var="#", color=r, data="Err0r: Kindly Report the err0r below to An0n3xPloiTeR :) (If Your Internet's Working ;)\n\"\"\"\n" + str(e) + "\n\"\"\"")
 
 print(Footer)
