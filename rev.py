@@ -31,11 +31,14 @@ print(Banner)
 def reverseViaHT(website):
     website = addHTTP(website); webs = removeHTTP(website)
     url = "http://api.hackertarget.com/reverseiplookup/?q="
+    
     combo = "{url}{website}".format(url=url, website=webs)
-    request = requests.get(combo, headers=functions._headers, timeout=5).text.encode('UTF-8')
+    
+    request = requests.get(combo, headers=functions._headers, timeout=5).text
+    #removed encode to utf-8 so as to work in windows 10
     if len(request) != 5:
-        list = request.strip("").split("\n")
-        for _links in list:
+        _list = request.strip("").split("\n")
+        for _links in _list:
             if len(_links) != 0:
                 write(var="#", color=g, data=_links)
     else:
@@ -76,10 +79,10 @@ def reverseViaYGS(website):
 def heading(heading, website, color, afterWebHead):
     space = " " * 15
     var = str(space + heading + " '" + website + "'" + str(afterWebHead) + " ..." + space)
-    length = len(var) + 1; print () # \n
+    length = len(var) + 1; print("") # \n
     print(str("{white}" + "-" * length + "-").format(white=w))
     print(str("{color}" + var).format(color=color))
-    print(str("{white}" + "-" * length + "-").format(white=w)); print () # \n
+    print(str("{white}" + "-" * length + "-").format(white=w)); print("") # \n
 
 ################################  Args  ################################ 
 
