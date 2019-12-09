@@ -16,7 +16,7 @@ _______________.___.
                                              ~ An0n 3xPloiTeR :)
 """
 
-from colors import g, b, y, r, c, b, w
+from insides.colors import g, b, y, r, c, b, w
 
 banner = """
 {}__________     ____   ____    __________       ___________._____________ 

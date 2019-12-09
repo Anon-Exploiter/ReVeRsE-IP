@@ -16,7 +16,7 @@ _______________.___.
                                              ~ An0n 3xPloiTeR :)
 """
 
-from colors import *
+from insides.colors import *
 
 footer = """
   {white}[{green}${white}] {cyan}Thanks For Using {white}:D
